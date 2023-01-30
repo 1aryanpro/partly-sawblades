@@ -103,8 +103,8 @@ class SawBlade extends Entity {
 
         super();
         let r = this.r;
-        this.x = random(r, width - r);
-        this.y = -r;
+        this.pos.x = random(r, width - r);
+        this.pos.y = -r;
 
         this.vel = p5.Vector.fromAngle(radians(angle)).mult(speed);
         this.vel.y = abs(this.vel.y);
@@ -151,19 +151,19 @@ class Player extends Entity {
         else { this.jumpHeld = 0; this.canJump = false; }
 
         this.pos.add(this.vel);
-        this.vel.y += 1;
+
+        let gravity = 1;
+        this.vel.y += gravity - (j ? 0.6 : 0);
     }
 
     jump() {
         if (!this.canJump) return;
         if (this.jumpHeld == 0) this.vel.y -= 10;
-        else if (this.jumpHeld < 60) this.vel.y -= 0.6;
     }
 
     hitGround() {
         this.canJump = true;
         this.vel.y = 0;
-        this.jumpHeld = 0;
 
         playerHitGround();
     }
