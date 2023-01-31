@@ -1,7 +1,7 @@
 const normalized = n => n * width / 400;
 
 class Entity {
-    constructor(x = 0, y = 0, s = normalized( 35 )) {
+    constructor(x = 0, y = 0, s = normalized(35)) {
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.s = s;
@@ -17,7 +17,7 @@ class Entity {
     }
 
     move() {
-        this.pos.add(this.vel)
+        this.pos.add(p5.Vector.mult(this.vel, 60 / frameRate()));
     }
 
     bounce() { }
@@ -29,7 +29,7 @@ class Entity {
 }
 
 class SawBlade extends Entity {
-    constructor(speed = normalized( 6 )) {
+    constructor(speed = normalized(6)) {
         let angle;
         do {
             angle = random(0, 180);
@@ -46,6 +46,7 @@ class SawBlade extends Entity {
         this.primed = false;
 
         this.rotation = 0;
+        this.rotDir = random([-1, 1]);
     }
 
     draw() {
@@ -55,11 +56,11 @@ class SawBlade extends Entity {
         fill(0);
         circle(0, 0, this.s);
 
-        let degStep = radians(30);
+        let degStep = radians(30) * -this.rotDir;
         let cosStep = cos(degStep);
         let sinStep = sin(degStep);
 
-        let sawTip = this.r + normalized( 5 );
+        let sawTip = this.r + normalized(5);
 
         rotate(this.rotation)
         for (let i = 0; i < 12; i++) {
@@ -68,22 +69,34 @@ class SawBlade extends Entity {
         }
 
         fill(this.primed ? 'green' : 'red')
-        circle(0, 0, this.s - normalized( 2 ));
+        circle(0, 0, this.s - normalized(2));
 
         pop();
     }
 
     bounce() {
-        this.rotation += radians(5);
+        this.rotation += radians(5) * this.rotDir;
 
-        let r = this.r + normalized( 5 );
-        if (this.pos.x - r < 0 || this.pos.x + r > width) {
-            this.pos.x = max(r, min(width - r, this.pos.x));
+        let r = this.r + normalized(5);
+        if (this.pos.x - r < 0) {
+            this.pos.x = r;
             this.vel.x *= -1;
+
+            this.rotDir = this.vel.y > 0 ? 1 : -1;
         }
+
+        if (this.pos.x + r > width) {
+            this.pos.x = width - r;
+            this.vel.x *= -1;
+
+            this.rotDir = this.vel.y > 0 ? -1 : 1;
+        }
+
         if (this.pos.y + r > height - 30) {
             this.pos.y = height - 30 - r;
             this.vel.y *= -1;
+
+            this.rotDir = this.vel.x > 0 ? 1 : -1;
         }
     }
 }
@@ -101,21 +114,22 @@ class Player extends Entity {
         let r = isControlDown(controls.right);
         let j = isControlDown(controls.jump);
 
-        let speed = normalized( 4 );
+        let speed = normalized(4);
         if (l != r) this.pos.x += speed * (r ? 1 : -1);
 
         this.jumpHeld = j ? this.jumpHeld + 1 : 0;
         this.jump();
 
-        this.pos.add(this.vel);
 
-        let gravity = normalized( 1 );
-        this.vel.y += gravity - (j ? normalized( 0.6) : 0);
+        let gravity = normalized(1);
+        this.vel.y += gravity - (j ? normalized(0.6) : 0);
+
+        super.move();
     }
 
     jump() {
         if (!this.canJump) return;
-        if (this.jumpHeld == 1) this.vel.y -= normalized( 10 );
+        if (this.jumpHeld == 1) this.vel.y -= normalized(10);
         this.canJump = false;
     }
 
@@ -149,13 +163,13 @@ class Scrap extends Entity {
         fill('grey');
         circle(0, 0, this.s);
         fill('darkgrey');
-        circle(0, 0, this.s - normalized( 5 ));
+        circle(0, 0, this.s - normalized(5));
         pop();
     }
 
     move() {
-        this.pos.add(this.vel);
-        this.vel.y += normalized( 0.6);
+        this.vel.y += normalized(0.6);
+        super.move();
     }
 
     bounce() {
@@ -167,7 +181,7 @@ class Scrap extends Entity {
         if (this.pos.y + r >= height - 30) {
             this.pos.y = height - 30 - r;
             this.vel.y = 0;
-            this.vel.x *= 0.9;
+            this.vel.x *= 0.6;
         }
     }
 }

@@ -44,7 +44,7 @@ function controlsScreen() {
 
     title('How to Play');
 
-    let lineH = width/16;
+    let lineH = width / 16;
     let lineY = (n) => height / 5 + lineH + lineH * n;
     textSize(lineH - 5);
     textFont('Arial');
@@ -53,5 +53,5 @@ function controlsScreen() {
     text('Hold Jump to Jump Higher', width / 2, lineY(3));
     text('Jump Over Saws to get Points', width / 2, lineY(4));
 
-    button('Back', height * 7 /10);
+    button('Back', height * 7 / 10);
 }

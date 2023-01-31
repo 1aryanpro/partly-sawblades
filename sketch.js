@@ -1,5 +1,4 @@
 // TODO: Adjust Speeds to be Frame Rate Accurate
-// TODO: Adjust Speeds to be Canvas Size Accurate
 
 let state = 'start';
 let game;

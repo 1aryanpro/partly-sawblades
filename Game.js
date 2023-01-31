@@ -93,7 +93,7 @@ class Game {
             }
             scrap.step();
         }
-        
+
 
         this.display();
     }
