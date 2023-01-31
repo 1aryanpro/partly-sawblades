@@ -1,56 +1,57 @@
+function button(name, y) {
+    let x = width / 8;
+
+    let btnW = width * 3 / 4;
+    let btnH = height / 5;
+
+    textFont('Impact');
+    textSize(width / 16);
+    fill(0);
+    rect(x, y, btnW, btnH);
+    fill('lightblue');
+    text(name, x + btnW / 2, y + btnH / 2);
+}
+
+function title(txt) {
+    textFont('Impact');
+    textAlign(CENTER, CENTER);
+    fill(0);
+    textSize(width / 8);
+    text(txt, width / 2, height / 5);
+}
+
 function gameOverScreen(points) {
     textFont('Impact');
     textAlign(CENTER, CENTER);
     fill(0);
     textSize(25);
-    text('Your Score was', width / 2, 150);
-    text('Press any Key to Restart', width/2, 350);
+    text('Your Score was', width / 2, height / 2 - 100);
+    text('Press any Key to Restart', width / 2, height / 2 + 100);
     textSize(150);
-    text(points, width / 2, 250);
-    // rect(50, 350, width - 100, 100);
-
-    // fill('lightblue');
-    // textSize(25);
-    // text('Restart', width / 2, 400);
+    text(points, width / 2, height / 2);
 }
 
 function startScreen() {
-    textFont('Impact');
-    textAlign(CENTER, CENTER);
-    fill(0);
-    textSize(50);
-    let title = 'Partly-Sawblades';
-    text(title, width / 2, 100);
 
-    textSize(25);
-    rect(50, 200, width - 100, 100);
-    fill('lightblue');
-    text('Start Game', width / 2, 250);
+    title('Partly-Sawblades');
 
-    fill(0);
-    rect(50, 350, width - 100, 100);
-    textFont('Impact');
-    fill('lightblue');
-    text('Controls', width / 2, 400);
+    button('Start Game', height * 2 / 5);
+
+    button('How to Play', height * 7 / 10);
 }
 
 function controlsScreen() {
-    textFont('Impact');
-    textAlign(CENTER, CENTER);
-    fill(0);
-    textSize(50);
-    let title = 'Controls';
-    text(title, width / 2, 100);
 
-    textSize(25);
+    title('How to Play');
+
+    let lineH = width/16;
+    let lineY = (n) => height / 5 + lineH + lineH * n;
+    textSize(lineH - 5);
     textFont('Arial');
-    text('A or Left-Arrow to Move Left', width / 2, 180);
-    text('D or Right-Arrow to Move Right', width / 2, 210);
-    text('W, Up-Arrow, or Space to Jump', width / 2, 240);
-    text('Hold Jump to Jump Higher', width / 2, 280);
+    text('WASD or Arrow Keys to Move', width / 2, lineY(1));
+    text('Space also works as Jump', width / 2, lineY(2));
+    text('Hold Jump to Jump Higher', width / 2, lineY(3));
+    text('Jump Over Saws to get Points', width / 2, lineY(4));
 
-    rect(50, 350, width - 100, 100);
-    textFont('Impact');
-    fill('lightblue');
-    text('Back', width / 2, 400);
+    button('Back', height * 7 /10);
 }

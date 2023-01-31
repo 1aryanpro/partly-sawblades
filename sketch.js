@@ -6,7 +6,9 @@ let game;
 let gameOverMS;
 
 function setup() {
-    createCanvas(400, 500, P2D);
+    let cHeight = windowHeight * 2 / 3;
+    let cWidth = cHeight / 500 * 400;
+    createCanvas(cWidth, cHeight, P2D);
     noStroke();
 
     if (getItem('highscore') == undefined) {
@@ -44,7 +46,7 @@ function mousePressed() {
 
     switch (state) {
         case 'start':
-            if (mouseY < 350) startGame();
+            if (mouseY < height * 7 / 10) startGame();
             else showControlsScreen();
             break;
         case 'controls':

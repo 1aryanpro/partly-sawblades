@@ -1,5 +1,7 @@
+const normalized = n => n * width / 400;
+
 class Entity {
-    constructor(x = 0, y = 0, s = width / 11) {
+    constructor(x = 0, y = 0, s = normalized( 35 )) {
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.s = s;
@@ -7,8 +9,11 @@ class Entity {
     }
 
     draw() {
-        fill(0)
-        circle(this.pos.x, this.pos.y, this.s);
+        push();
+        translate(this.pos.x, this.pos.y)
+        fill(0);
+        circle(0, 0, this.s);
+        pop();
     }
 
     move() {
@@ -24,7 +29,7 @@ class Entity {
 }
 
 class SawBlade extends Entity {
-    constructor(speed = 6) {
+    constructor(speed = normalized( 6 )) {
         let angle;
         do {
             angle = random(0, 180);
@@ -39,17 +44,39 @@ class SawBlade extends Entity {
         this.vel.y = abs(this.vel.y);
 
         this.primed = false;
+
+        this.rotation = 0;
     }
 
     draw() {
-        fill(0)
-        circle(this.pos.x, this.pos.y, this.s + 6);
+        push();
+
+        translate(this.pos.x, this.pos.y)
+        fill(0);
+        circle(0, 0, this.s);
+
+        let degStep = radians(30);
+        let cosStep = cos(degStep);
+        let sinStep = sin(degStep);
+
+        let sawTip = this.r + normalized( 5 );
+
+        rotate(this.rotation)
+        for (let i = 0; i < 12; i++) {
+            rotate(degStep);
+            triangle(this.r, 0, this.r * cosStep, this.r * sinStep, sawTip * cosStep, sawTip * sinStep);
+        }
+
         fill(this.primed ? 'green' : 'red')
-        circle(this.pos.x, this.pos.y, this.s);
+        circle(0, 0, this.s - normalized( 2 ));
+
+        pop();
     }
 
     bounce() {
-        let r = this.r;
+        this.rotation += radians(5);
+
+        let r = this.r + normalized( 5 );
         if (this.pos.x - r < 0 || this.pos.x + r > width) {
             this.pos.x = max(r, min(width - r, this.pos.x));
             this.vel.x *= -1;
@@ -74,7 +101,7 @@ class Player extends Entity {
         let r = isControlDown(controls.right);
         let j = isControlDown(controls.jump);
 
-        let speed = 4;
+        let speed = normalized( 4 );
         if (l != r) this.pos.x += speed * (r ? 1 : -1);
 
         this.jumpHeld = j ? this.jumpHeld + 1 : 0;
@@ -82,13 +109,13 @@ class Player extends Entity {
 
         this.pos.add(this.vel);
 
-        let gravity = 1;
-        this.vel.y += gravity - (j ? 0.6 : 0);
+        let gravity = normalized( 1 );
+        this.vel.y += gravity - (j ? normalized( 0.6) : 0);
     }
 
     jump() {
         if (!this.canJump) return;
-        if (this.jumpHeld == 1) this.vel.y -= 10;
+        if (this.jumpHeld == 1) this.vel.y -= normalized( 10 );
         this.canJump = false;
     }
 
@@ -113,19 +140,22 @@ class Scrap extends Entity {
         this.s = this.r;
         this.r /= 2;
 
-        this.vel = p5.Vector.fromAngle(radians(random(180, 360))).mult(random(5, 8));
+        this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(8));
     }
 
     draw() {
+        push();
+        translate(this.pos.x, this.pos.y)
         fill('grey');
-        circle(this.pos.x, this.pos.y, this.s);
+        circle(0, 0, this.s);
         fill('darkgrey');
-        circle(this.pos.x, this.pos.y, this.s-5);
+        circle(0, 0, this.s - normalized( 5 ));
+        pop();
     }
-    
+
     move() {
         this.pos.add(this.vel);
-        this.vel.y += 1;
+        this.vel.y += normalized( 0.6);
     }
 
     bounce() {
