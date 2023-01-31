@@ -13,31 +13,48 @@ class Game {
         this.saws = [];
         this.nextSaws = millis() + 1500;
 
+        this.scraps = [];
+
         this.points = 0;
 
         this.player = new Player();
         this.player.hitGroundEvent = this.playerHitGround.bind(this);
+
+        this.timer = 60000;
+
         this.gameOver = false;
     }
 
-    displayOnly() {
+    display() {
         fill(0);
         textSize(150);
         text(this.points, width / 2, height / 2);
 
         this.player.draw();
         this.saws.forEach(s => s.draw());
+        this.scraps.forEach(s => s.draw());
+
+        fill(0);
+        rect(0, height - 30, width, 30);
+        fill('lightgreen');
+        let progress = 1 - (this.timer) / 60000;
+        rect(0, height - 25, width, 25);
+        fill('green');
+        rect(0, height - 25, width * progress, 25);
+        textAlign(RIGHT);
+        textSize(25);
+        fill(0);
+        text(`${60 - floor(progress * 60)}s Remaining`, width - 2, height - 12);
+        textAlign(CENTER);
     }
 
     step() {
         if (this.gameOver) {
-            this.displayOnly();
+            this.display();
             return;
         }
-
-        fill(0);
-        textSize(150);
-        text(this.points, width / 2, height / 2);
+        this.timer -= deltaTime;
+        if (this.timer < 0) this.gameOver = true;
 
         this.player.step();
 
@@ -65,6 +82,20 @@ class Game {
                 break;
             }
         }
+
+        for (let i = this.scraps.length - 1; i >= 0; i--) {
+            let scrap = this.scraps[i];
+
+            if (p5.Vector.sub(this.player.pos, scrap.pos).mag() < this.player.r + scrap.r) {
+                this.scraps.splice(i, 1);
+                this.timer += 1000;
+                continue;
+            }
+            scrap.step();
+        }
+        
+
+        this.display();
     }
 
     playerHitGround() {
@@ -75,6 +106,9 @@ class Game {
 
             this.saws.splice(i, 1);
             sawsBroken++;
+
+            for (let j = 0; j < sawsBroken; j++)
+                this.scraps.push(new Scrap(saw.pos.x, saw.pos.y));
         }
         this.points += sawsBroken;
     }

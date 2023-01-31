@@ -7,6 +7,7 @@ let gameOverMS;
 
 function setup() {
     createCanvas(400, 500, P2D);
+    noStroke();
 }
 
 function draw() {
@@ -21,7 +22,7 @@ function draw() {
         case 'game':
             game.step();
             if (game.gameOver) {
-                if (gameOverMS == undefined) gameOverMS = millis() + 1000;
+                if (gameOverMS == undefined) gameOverMS = millis() + 1200;
                 if (millis() > gameOverMS) endGame();
                 console.log()
             }
@@ -52,6 +53,7 @@ function mousePressed() {
 
 function keyPressed() {
     if (state == 'gameOver') startGame();
+    if (state == 'start') startGame();
 }
 
 function startGame() {

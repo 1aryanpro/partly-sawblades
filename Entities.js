@@ -1,7 +1,7 @@
 class Entity {
-    constructor(x = 0, y = 0, vx = 0, vy = 0, s = width / 11) {
+    constructor(x = 0, y = 0, s = width / 11) {
         this.pos = createVector(x, y);
-        this.vel = createVector(vx, vy);
+        this.vel = createVector(0, 0);
         this.s = s;
         this.r = s / 2;
     }
@@ -20,7 +20,6 @@ class Entity {
     step() {
         this.move();
         this.bounce();
-        this.draw();
     }
 }
 
@@ -44,7 +43,7 @@ class SawBlade extends Entity {
 
     draw() {
         fill(0)
-        circle(this.pos.x, this.pos.y, this.s + 4);
+        circle(this.pos.x, this.pos.y, this.s + 6);
         fill(this.primed ? 'green' : 'red')
         circle(this.pos.x, this.pos.y, this.s);
     }
@@ -55,8 +54,8 @@ class SawBlade extends Entity {
             this.pos.x = max(r, min(width - r, this.pos.x));
             this.vel.x *= -1;
         }
-        if (this.pos.y + r > height) {
-            this.pos.y = height - r;
+        if (this.pos.y + r > height - 30) {
+            this.pos.y = height - 30 - r;
             this.vel.y *= -1;
         }
     }
@@ -102,9 +101,44 @@ class Player extends Entity {
 
     bounce() {
         this.pos.x = max(this.r, min(width - this.r, this.pos.x));
-        let bottom = height - this.r;
+        let bottom = height - 30 - this.r;
         this.pos.y = min(this.pos.y, bottom);
         if (this.pos.y == bottom) this.hitGround();
+    }
+}
+
+class Scrap extends Entity {
+    constructor(x, y) {
+        super(x, y);
+        this.s = this.r;
+        this.r /= 2;
+
+        this.vel = p5.Vector.fromAngle(radians(random(180, 360))).mult(random(5, 8));
+    }
+
+    draw() {
+        fill('grey');
+        circle(this.pos.x, this.pos.y, this.s);
+        fill('darkgrey');
+        circle(this.pos.x, this.pos.y, this.s-5);
+    }
+    
+    move() {
+        this.pos.add(this.vel);
+        this.vel.y += 1;
+    }
+
+    bounce() {
+        let r = this.r;
+        if (this.pos.x - r < 0 || this.pos.x + r > width) {
+            this.pos.x = max(r, min(width - r, this.pos.x));
+            this.vel.x *= -1;
+        }
+        if (this.pos.y + r >= height - 30) {
+            this.pos.y = height - 30 - r;
+            this.vel.y = 0;
+            this.vel.x *= 0.9;
+        }
     }
 }
 
