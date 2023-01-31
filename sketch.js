@@ -57,6 +57,8 @@ function mousePressed() {
 }
 
 function keyPressed() {
+    if ([16, 17, 18, 27, 91, 93].indexOf(keyCode) != -1) return;
+
     if (state == 'gameOver') startGame();
     if (state == 'start') startGame();
 }
