@@ -8,6 +8,11 @@ let gameOverMS;
 function setup() {
     createCanvas(400, 500, P2D);
     noStroke();
+
+    if (getItem('highscore') == undefined) {
+        storeItem('highscore', 0);
+    }
+    updateHS(0);
 }
 
 function draw() {
@@ -71,4 +76,11 @@ function showTitleScreen() {
 
 function endGame() {
     state = 'gameOver';
+    updateHS(game.points);
+}
+
+function updateHS(score) {
+    let highScore = max(getItem('highscore'), score);
+    storeItem('highscore', highScore);
+    document.getElementById('hs').innerText = highScore;
 }
