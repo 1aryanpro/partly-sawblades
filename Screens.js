@@ -26,9 +26,8 @@ function controlsScreen() {
     textSize(lineH - 5);
     textFont('Arial');
     text('WASD or Arrow Keys to Move', width / 2, lineY(1));
-    text('Space also works as Jump', width / 2, lineY(2));
-    text('Hold Jump to Jump Higher', width / 2, lineY(3));
-    text('Jump Over Saws to get Points', width / 2, lineY(4));
+    text('Hold Jump to Jump Higher', width / 2, lineY(2));
+    text('Jump Over Saws to get Points', width / 2, lineY(3.5));
 
     button('Back', height * 7 / 10);
 }

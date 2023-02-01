@@ -104,8 +104,22 @@ class Player extends Entity {
     constructor() {
         super(width / 2, height);
         this.canJump = true;
+        this.canDouble = true;
         this.jumpHeld = 0;
         this.hitGroundEvent = () => undefined;
+    }
+
+    draw() {
+        push();
+        translate(this.pos.x, this.pos.y);
+
+        fill(colors.dark);
+        circle(0, 0, this.s);
+
+        // fill((this.canJump || this.canDouble) ? colors.green : colors.red);
+        // circle(0, 0, this.s - normalized(10));
+
+        pop();
     }
 
     move() {
@@ -113,27 +127,34 @@ class Player extends Entity {
         let r = isControlDown(controls.right);
         let j = isControlDown(controls.jump);
 
-        let speed = normalized(4);
-        if (l != r) this.pos.x += speed * (r ? 1 : -1);
+        let speed = normalized(4) * (!this.canJump && !this.canDouble ? 1.5 : 1);
+        if (l != r) {
+            this.vel.x += speed * (r ? 1 : -1);
+        }
 
         this.jumpHeld = j ? this.jumpHeld + 1 : 0;
         this.jump();
 
 
-        let gravity = normalized(1);
-        this.vel.y += gravity - (j ? normalized(0.6) : 0);
+        let gravity = normalized(j ? (this.canDouble ? 0.4 : 0.7) : 1);
+        this.vel.y += gravity;
 
         super.move();
+        this.vel.x = 0;
     }
 
     jump() {
-        if (!this.canJump) return;
-        if (this.jumpHeld == 1) this.vel.y -= normalized(10);
-        this.canJump = false;
+        if (!this.canJump && !this.canDouble) return;
+        if (this.jumpHeld == 1) {
+            this.vel.y = this.canJump ? -normalized(10) : -normalized(8);
+            this.canDouble = this.canJump ? this.canDouble : false;
+            this.canJump = false;
+        }
     }
 
     hitGround() {
         this.canJump = true;
+        this.canDouble = true;
         this.vel.y = 0;
 
         this.hitGroundEvent();

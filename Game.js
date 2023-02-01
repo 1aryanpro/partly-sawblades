@@ -46,12 +46,12 @@ class Game {
         this.player.step();
 
         if (millis() > this.nextSaws) {
-            let time = 60 - this.timer/1000;
+            let time = 60 - this.timer / 1000;
 
             let r = time <= 4 ? 1 : random(1);
             let c = 1;
 
-            let two_blades = map(time, 5, 25, 0.3, 0.8, true);
+            let two_blades = map(time, 6, 25, 0.5, 1, true);
             let thr_blades = map(time, 20, 40, 0, 0.5, true);
 
             if (two_blades > r) c++;
@@ -72,8 +72,10 @@ class Game {
             }
             saw.step();
 
-            if (this.player.pos.y < saw.pos.y && abs(this.player.pos.x - saw.pos.x) < saw.s)
+            if (this.player.pos.y < saw.pos.y && abs(this.player.pos.x - saw.pos.x) < saw.s) {
                 saw.primed = true;
+                // this.player.canDouble = true;
+            }
 
             if (p5.Vector.sub(this.player.pos, saw.pos).mag() < this.player.r + saw.r) {
                 this.gameOver = true;
