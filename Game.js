@@ -1,13 +1,3 @@
-const controls = {
-    left: [37, 65],
-    right: [39, 68],
-    jump: [38, 87, 32],
-};
-
-function isControlDown(arr) {
-    return arr.map(n => keyIsDown(n)).reduce((a, b) => a || b);
-}
-
 class Game {
     constructor() {
         this.saws = [];
@@ -26,7 +16,7 @@ class Game {
     }
 
     display() {
-        fill(0);
+        fill(colors.dark);
         textSize(150);
         text(this.points, width / 2, height / 2);
 
@@ -36,15 +26,15 @@ class Game {
 
         fill(0);
         rect(0, height - 30, width, 30);
-        fill('lightgreen');
+        fill(colors.lightpurple);
         let progress = 1 - (this.timer) / 60000;
         rect(0, height - 25, width, 25);
-        fill('green');
+        fill(colors.purple);
         rect(0, height - 25, width * progress, 25);
         textAlign(RIGHT);
         textSize(25);
-        fill(0);
-        text(`${60 - floor(progress * 60)}s Remaining`, width - 2, height - 12);
+        fill(colors.dark);
+        text(`${60 - floor(progress * 60)}s`, width - 2, height - 12);
         textAlign(CENTER);
     }
 

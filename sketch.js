@@ -17,7 +17,7 @@ function setup() {
 }
 
 function draw() {
-    background('lightblue');
+    drawBackground();
     switch (state) {
         case 'start':
             startScreen();
@@ -82,8 +82,7 @@ function endGame() {
     updateHS(game.points);
 }
 
-function updateHS(score) {
-    let highScore = max(getItem('highscore'), score);
-    storeItem('highscore', highScore);
-    document.getElementById('hs').innerText = highScore;
+function drawBackground() {
+    background(colors.lightgreen);
 }
+

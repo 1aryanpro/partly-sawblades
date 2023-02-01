@@ -1,5 +1,3 @@
-const normalized = n => n * width / 400;
-
 class Entity {
     constructor(x = 0, y = 0, s = normalized(35)) {
         this.pos = createVector(x, y);
@@ -11,7 +9,7 @@ class Entity {
     draw() {
         push();
         translate(this.pos.x, this.pos.y)
-        fill(0);
+        fill(colors.dark);
         circle(0, 0, this.s);
         pop();
     }
@@ -53,23 +51,24 @@ class SawBlade extends Entity {
         push();
 
         translate(this.pos.x, this.pos.y)
-        fill(0);
-        circle(0, 0, this.s);
 
         let degStep = radians(30) * -this.rotDir;
         let cosStep = cos(degStep);
         let sinStep = sin(degStep);
 
-        let sawTip = this.r + normalized(5);
+        let sawTip = this.r + normalized(7);
 
-        rotate(this.rotation)
+        rotate(this.rotation);
         for (let i = 0; i < 12; i++) {
             rotate(degStep);
             triangle(this.r, 0, this.r * cosStep, this.r * sinStep, sawTip * cosStep, sawTip * sinStep);
         }
 
-        fill(this.primed ? 'green' : 'red')
-        circle(0, 0, this.s - normalized(2));
+        fill(colors.light);
+        circle(0, 0, this.s);
+
+        fill(this.primed ? colors.green : colors.red)
+        circle(0, 0, this.s - normalized(5));
 
         pop();
     }
@@ -154,15 +153,15 @@ class Scrap extends Entity {
         this.s = this.r;
         this.r /= 2;
 
-        this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(8));
+        this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(6));
     }
 
     draw() {
         push();
         translate(this.pos.x, this.pos.y)
-        fill('grey');
+        fill(colors.purple);
         circle(0, 0, this.s);
-        fill('darkgrey');
+        fill(colors.lightpurple);
         circle(0, 0, this.s - normalized(5));
         pop();
     }
