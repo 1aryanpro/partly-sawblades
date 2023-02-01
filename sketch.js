@@ -109,22 +109,27 @@ function drawBackground() {
 
 
     push();
+
     let angle = radians((millis() / 5) % 360)
-    let sina = pow(abs(sin(angle)), 1/3) * 10;
-    let cosa = pow(abs(cos(angle)), 1/3) * 10;
+    let sina = pow(abs(sin(angle)), 1 / 3) * 10;
+    let cosa = pow(abs(cos(angle)), 1 / 3) * 10;
+
     translate(0, height);
 
     fill(colors.green);
-
-    triangle(width / 4, sina, width * 3 / 4, sina, width / 2, -height / 5 + sina);
+    triangle(width / 8, cosa, width / 2, cosa, width * 2.5 / 8, -height / 6 + cosa);
+    triangle(width * 7 / 8, cosa, width / 2, cosa, width * 5.5 / 8, -height / 6 + cosa);
 
     fill(colors.lightgreen);
-    triangle(width / 8, cosa, width / 2, cosa, width * 2.5 / 8, -height / 7 + cosa);
-    triangle(width * 7 / 8, cosa, width / 2, cosa, width * 5.5 / 8, -height / 7 + cosa);
+    triangle(width / 4, sina, width * 3 / 4, sina, width / 2, -height / 7 + sina);
+    triangle(width * 3 / 8, 0, 0, 0, 0, -height / 7);
+    triangle(width * 5 / 8, 0, width, 0, width, -height / 7);
 
-    triangle(width * 3 / 8, 0, 0, 0, 0, -height / 6);
-    triangle(width * 5 / 8, 0, width, 0, width, -height / 6);
     pop();
 
+    fill(0)
+    rect(0, height - 30, width, 5);
+    fill(colors.lightpurple);
+    rect(0, height - 25, width, 25);
 }
 

@@ -24,11 +24,7 @@ class Game {
         this.saws.forEach(s => s.draw());
         this.scraps.forEach(s => s.draw());
 
-        fill(0);
-        rect(0, height - 30, width, 30);
-        fill(colors.lightpurple);
         let progress = 1 - (this.timer) / 60000;
-        rect(0, height - 25, width, 25);
         fill(colors.purple);
         rect(0, height - 25, width * progress, 25);
         textAlign(RIGHT);
@@ -43,17 +39,20 @@ class Game {
             this.display();
             return;
         }
+
         this.timer -= deltaTime;
         if (this.timer < 0) this.gameOver = true;
 
         this.player.step();
 
         if (millis() > this.nextSaws) {
-            let r = random(1);
+            let time = 60 - this.timer/1000;
+
+            let r = time <= 4 ? 1 : random(1);
             let c = 1;
 
-            let two_blades = map(this.points, 5, 15, 0.5, 1, true);
-            let thr_blades = map(this.points, 10, 20, 0, 0.5, true);
+            let two_blades = map(time, 5, 25, 0.3, 0.8, true);
+            let thr_blades = map(time, 20, 40, 0, 0.5, true);
 
             if (two_blades > r) c++;
             if (thr_blades > r) c++;
