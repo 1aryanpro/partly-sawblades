@@ -99,8 +99,6 @@ function drawBackground() {
         let [x, y] = p;
         ellipse(x * width, y * height * 0.2, height / 6 * (1 - y), height / 6 * (1 - y));
 
-        if (i % 2 == 0) return;
-
         if (p[1] > 1) {
             p[1]--;
         }

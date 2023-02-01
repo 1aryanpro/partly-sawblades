@@ -140,7 +140,7 @@ class Player extends Entity {
     }
 
     bounce() {
-        this.pos.x = max(this.r, min(width - this.r, this.pos.x));
+        this.pos.x = constrain(this.pos.x, this.r, width - this.r);
         let bottom = height - 30 - this.r;
         this.pos.y = min(this.pos.y, bottom);
         if (this.pos.y == bottom) this.hitGround();
@@ -150,19 +150,23 @@ class Player extends Entity {
 class Scrap extends Entity {
     constructor(x, y) {
         super(x, y);
-        this.s = this.r;
-        this.r /= 2;
+        this.s = this.r * 1.5;
+        this.r = this.s / 2;
 
         this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(6));
+        this.offset = floor(random(360));
     }
 
     draw() {
         push();
-        translate(this.pos.x, this.pos.y)
+        let floatHeight = (sin(radians(millis() / 4 % 360 + this.offset)) - 1);
+        translate(this.pos.x, this.pos.y + floatHeight * normalized(5));
+        rotate(radians(45));
         fill(colors.purple);
-        circle(0, 0, this.s);
+        rectMode(CENTER)
+        square(0, 0, this.s * sqrt(2) / 2)
         fill(colors.lightpurple);
-        circle(0, 0, this.s - normalized(5));
+        square(0, 0, (this.s - normalized(10)) * sqrt(2) / 2);
         pop();
     }
 
@@ -174,7 +178,7 @@ class Scrap extends Entity {
     bounce() {
         let r = this.r;
         if (this.pos.x - r < 0 || this.pos.x + r > width) {
-            this.pos.x = max(r, min(width - r, this.pos.x));
+            this.pos.x = constrain(this.pos.x, r, width - r);
             this.vel.x *= -1;
         }
         if (this.pos.y + r >= height - 30) {

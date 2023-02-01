@@ -49,11 +49,20 @@ class Game {
         this.player.step();
 
         if (millis() > this.nextSaws) {
-            this.saws.push(new SawBlade());
-            if (random([true, false])) {
+            let r = random(1);
+            let c = 1;
+
+            let two_blades = map(this.points, 5, 15, 0.5, 1, true);
+            let thr_blades = map(this.points, 10, 20, 0, 0.5, true);
+
+            if (two_blades > r) c++;
+            if (thr_blades > r) c++;
+
+            for (let i = 0; i < c; i++) {
                 this.saws.push(new SawBlade());
             }
-            this.nextSaws += 1750;
+
+            this.nextSaws += 1500;
         }
 
         for (let i = this.saws.length - 1; i >= 0; i--) {
