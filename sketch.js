@@ -74,6 +74,7 @@ function keyPressed() {
 function startGame() {
     game = new Game();
     state = 'game';
+    gameOverMS = undefined;
 }
 
 function showControlsScreen() {
@@ -98,7 +99,7 @@ function drawBackground() {
         let [x, y] = p;
         ellipse(x * width, y * height * 0.2, height / 6 * (1 - y), height / 6 * (1 - y));
 
-        if (i % 4 == 0) return;
+        if (i % 2 == 0) return;
 
         if (p[1] > 1) {
             p[1]--;
@@ -111,8 +112,8 @@ function drawBackground() {
 
     push();
     let angle = radians((millis() / 5) % 360)
-    let sina = abs((1 - sin(angle)) * 10);
-    let cosa = abs((1 - cos(angle)) * 10);
+    let sina = pow(abs(sin(angle)), 1/3) * 10;
+    let cosa = pow(abs(cos(angle)), 1/3) * 10;
     translate(0, height);
 
     fill(colors.green);
