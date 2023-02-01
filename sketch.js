@@ -5,6 +5,8 @@ let game;
 let gameOverMS;
 
 let clouds = [];
+let fr;
+let hs;
 
 function setup() {
     let cHeight = windowHeight * 2 / 3;
@@ -15,11 +17,16 @@ function setup() {
     if (getItem('highscore') == undefined) {
         storeItem('highscore', 0);
     }
-    updateHS(0);
+    hs = updateHS(0);
 
     for (let i = 0; i < 100; i++) {
         clouds.push([random(1), i / 100]);
     }
+
+    fr = round(frameRate());
+    setInterval(() => {
+        fr = round(frameRate());
+    }, 500);
 }
 
 function draw() {
@@ -87,7 +94,7 @@ function showTitleScreen() {
 
 function endGame() {
     state = 'gameOver';
-    updateHS(game.points);
+    hs = updateHS(game.points);
 }
 
 function drawBackground() {
@@ -131,5 +138,15 @@ function drawBackground() {
     rect(0, height - 30, width, 5);
     fill(colors.lightpurple);
     rect(0, height - 25, width, 25);
+
+    textSize(20);
+    fill(colors.light);
+    textAlign(LEFT, TOP);
+    text(fr + ' fps', 5, 3);
+    
+    textAlign(RIGHT);
+    text('Highscore: ' + hs, width - 5, 3);
+
+    textAlign(CENTER, CENTER);
 }
 

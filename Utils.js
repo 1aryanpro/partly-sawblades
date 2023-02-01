@@ -27,7 +27,7 @@ function title(txt) {
     textAlign(CENTER, CENTER);
     fill(colors.dark);
     textSize(width / 8);
-    text(txt, width / 2, height / 5);
+    text(txt, width / 2, height / 4);
 }
 
 const normalized = n => n * width / 400;
@@ -35,7 +35,7 @@ const normalized = n => n * width / 400;
 function updateHS(score) {
     let highScore = max(getItem('highscore'), score);
     storeItem('highscore', highScore);
-    document.getElementById('hs').innerText = highScore;
+    return highScore;
 }
 
 const colors = {

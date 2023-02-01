@@ -20,14 +20,15 @@ function controlsScreen() {
     title('How to Play');
 
     let lineH = width / 16;
-    let lineY = (n) => height / 5 + lineH + lineH * n;
+    let lineY = (n) => height / 4 + lineH + lineH * n;
 
     fill(colors.dark);
     textSize(lineH - 5);
     textFont('Arial');
     text('WASD or Arrow Keys to Move', width / 2, lineY(1));
     text('Hold Jump to Jump Higher', width / 2, lineY(2));
-    text('Jump Over Saws to get Points', width / 2, lineY(3.5));
+    text('Double Jump to be Faster in the Air', width / 2, lineY(3));
+    text('Jump Over Saws to get Points', width / 2, lineY(4.5));
 
     button('Back', height * 7 / 10);
 }
