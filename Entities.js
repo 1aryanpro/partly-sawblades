@@ -58,13 +58,13 @@ class SawBlade extends Entity {
 
         let sawTip = this.r + normalized(7);
 
+        fill(0);
         rotate(this.rotation);
         for (let i = 0; i < 12; i++) {
             rotate(degStep);
             triangle(this.r, 0, this.r * cosStep, this.r * sinStep, sawTip * cosStep, sawTip * sinStep);
         }
 
-        fill(colors.light);
         circle(0, 0, this.s);
 
         fill(this.primed ? colors.green : colors.red)

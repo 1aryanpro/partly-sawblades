@@ -4,6 +4,8 @@ let state = 'start';
 let game;
 let gameOverMS;
 
+let clouds = [];
+
 function setup() {
     let cHeight = windowHeight * 2 / 3;
     let cWidth = cHeight / 500 * 400;
@@ -14,10 +16,15 @@ function setup() {
         storeItem('highscore', 0);
     }
     updateHS(0);
+
+    for (let i = 0; i < 100; i++) {
+        clouds.push([random(1), i / 100]);
+    }
 }
 
 function draw() {
     drawBackground();
+
     switch (state) {
         case 'start':
             startScreen();
@@ -83,6 +90,42 @@ function endGame() {
 }
 
 function drawBackground() {
-    background(colors.lightgreen);
+    background(colors.light);
+
+    fill(colors.red);
+    rect(0, 0, width, height * 0.08);
+    clouds.forEach((p, i) => {
+        let [x, y] = p;
+        ellipse(x * width, y * height * 0.2, height / 6 * (1 - y), height / 6 * (1 - y));
+
+        if (i % 4 == 0) return;
+
+        if (p[1] > 1) {
+            p[1]--;
+        }
+
+        p[1] += 0.005;
+
+    });
+
+
+    push();
+    let angle = radians((millis() / 5) % 360)
+    let sina = abs((1 - sin(angle)) * 10);
+    let cosa = abs((1 - cos(angle)) * 10);
+    translate(0, height);
+
+    fill(colors.green);
+
+    triangle(width / 4, sina, width * 3 / 4, sina, width / 2, -height / 5 + sina);
+
+    fill(colors.lightgreen);
+    triangle(width / 8, cosa, width / 2, cosa, width * 2.5 / 8, -height / 7 + cosa);
+    triangle(width * 7 / 8, cosa, width / 2, cosa, width * 5.5 / 8, -height / 7 + cosa);
+
+    triangle(width * 3 / 8, 0, 0, 0, 0, -height / 6);
+    triangle(width * 5 / 8, 0, width, 0, width, -height / 6);
+    pop();
+
 }
 
