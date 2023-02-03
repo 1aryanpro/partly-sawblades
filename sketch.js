@@ -139,7 +139,7 @@ function drawBackground() {
     fill(colors.lightpurple);
     rect(0, height - 25, width, 25);
 
-    textSize(20);
+    textSize(normalized(15));
     fill(colors.light);
     textAlign(LEFT, TOP);
     text(fr + ' fps', 5, 3);

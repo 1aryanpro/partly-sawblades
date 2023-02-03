@@ -5,7 +5,7 @@ function gameOverScreen(points) {
     textSize(normalized(25));
     text('Your Score was', width / 2, height / 2 - 100);
     text('Press any Key to Restart', width / 2, height / 2 + 100);
-    textSize(150);
+    textSize(normalized(150));
     text(points, width / 2, height / 2);
 }
 

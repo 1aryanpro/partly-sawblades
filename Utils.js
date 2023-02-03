@@ -40,7 +40,7 @@ function updateHS(score) {
 
 const colors = {
     dark: '#45444f',
-    grey: '#b8b5b9',
+    grey: '#b5b0aa',
     light: '#e0ded5',
     lightblue: '#68c2d3',
     red: '#f43356',

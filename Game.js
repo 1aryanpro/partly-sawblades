@@ -16,8 +16,8 @@ class Game {
     }
 
     display() {
-        fill(colors.dark);
-        textSize(150);
+        fill(colors.grey);
+        textSize(normalized(150));
         text(this.points, width / 2, height / 2);
 
         this.player.draw();
