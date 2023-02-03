@@ -1,10 +1,18 @@
 class Scrap extends Entity {
-    constructor(x, y) {
-        super(x, y);
+    constructor(saw) {
+        super(saw.pos.x, saw.pos.y);
         this.s = this.r * 1.5;
         this.r = this.s / 2;
 
-        this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(6));
+        // this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(6));
+        this.vel = p5.Vector.rotate(saw.vel, random(-PI / 10, PI / 10));
+        let mag = this.vel.mag();
+        // this.vel.y = map(this.vel.y, -mag, mag, );
+        this.vel.y -= this.vel.mag() * 1.2;
+
+        this.vel.setMag(normalized(6));
+        this.vel.y *= 1.5;
+
         this.offset = floor(random(360));
     }
 

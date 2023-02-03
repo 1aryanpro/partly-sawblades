@@ -1,7 +1,7 @@
 const controls = {
     left: [37, 65],
     right: [39, 68],
-    jump: [38, 87],
+    jump: [38, 87, 32],
 };
 
 function isControlDown(arr) {

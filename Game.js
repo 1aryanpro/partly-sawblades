@@ -108,7 +108,7 @@ class Game {
             sawsBroken++;
 
             for (let j = 0; j < sawsBroken; j++)
-                this.scraps.push(new Scrap(saw.pos.x, saw.pos.y));
+                this.scraps.push(new Scrap(saw));
         }
         this.points += sawsBroken;
     }

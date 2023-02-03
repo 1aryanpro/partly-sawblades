@@ -9,8 +9,10 @@ class Entity {
     draw() {
         push();
         translate(this.pos.x, this.pos.y)
+
         fill(colors.dark);
         circle(0, 0, this.s);
+
         pop();
     }
 

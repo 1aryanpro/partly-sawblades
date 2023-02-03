@@ -3,8 +3,8 @@ function gameOverScreen(points) {
     textAlign(CENTER, CENTER);
     fill(colors.dark);
     textSize(normalized(25));
-    text('Your Score was', width / 2, height / 2 - 100);
-    text('Press any Key to Restart', width / 2, height / 2 + 100);
+    text('Your Score was', width / 2, height / 2 - normalized(100));
+    text('Press any Key to Restart', width / 2, height / 2 + normalized(100));
     textSize(normalized(150));
     text(points, width / 2, height / 2);
 }
@@ -16,7 +16,6 @@ function startScreen() {
 }
 
 function controlsScreen() {
-
     title('How to Play');
 
     let lineH = width / 16;
