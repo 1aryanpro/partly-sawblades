@@ -5,9 +5,8 @@ class Scrap extends Entity {
         this.r = this.s / 2;
 
         // this.vel = p5.Vector.fromAngle(random(PI, TWO_PI)).mult(normalized(6));
-        this.vel = p5.Vector.rotate(saw.vel, random(-PI / 10, PI / 10));
+        this.vel = p5.Vector.rotate(saw.vel, radians(random(-30, 30)));
         let mag = this.vel.mag();
-        // this.vel.y = map(this.vel.y, -mag, mag, );
         this.vel.y -= this.vel.mag() * 1.2;
 
         this.vel.setMag(normalized(6));
